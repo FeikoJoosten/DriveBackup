@@ -86,6 +86,8 @@ messages:
   # What to say to all players when backup is complete and there is another scheduled backup. This message is sent along with "backup-complete".
   #    %TIME is the amount of time until the next backup, in minutes
   next-backup: "The next backup is in %TIME minutes"
+  # Whether or not to send the backup message in game (true) or to console (false)
+  send-in-game: false
 
 # If set to true, most stacktraces will be suppressed
 suppress-errors: false

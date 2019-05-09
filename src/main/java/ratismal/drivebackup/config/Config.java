@@ -63,7 +63,7 @@ public class Config {
     private static String backupStart;
     private static String backupDone;
     private static String backupNext;
-
+    private static Boolean sendInGame;
 
     /**
      * config constructor
@@ -87,6 +87,7 @@ public class Config {
 
         dir = pluginconfig.getString("dir");
         noPerms = pluginconfig.getString("messages.no-perm");
+        sendInGame = pluginconfig.getBoolean("messages.send-in-game");
         backupStart = pluginconfig.getString("messages.backup-start");
         backupDone = pluginconfig.getString("messages.backup-complete");
         backupNext = pluginconfig.getString("messages.next-backup");
@@ -221,5 +222,7 @@ public class Config {
     public static boolean isDebug() {
         return debug;
     }
+
+    public static boolean isSendInGame() { return sendInGame; }
 }
 

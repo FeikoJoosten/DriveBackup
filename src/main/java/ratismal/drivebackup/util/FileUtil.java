@@ -136,7 +136,7 @@ public class FileUtil {
 
         try {
             try {
-                source = sourceFolder.substring(sourceFolder.lastIndexOf("/") + 1, sourceFolder.length());
+                source = sourceFolder.substring(sourceFolder.lastIndexOf("/") + 1);
             } catch (Exception e) {
                 source = sourceFolder;
             }

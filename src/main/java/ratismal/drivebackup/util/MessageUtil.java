@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import ratismal.drivebackup.config.Config;
 
 public class MessageUtil {
 
@@ -13,8 +14,10 @@ public class MessageUtil {
      * @param message Message to send
      */
     public static void sendMessageToAllPlayers(String message) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(getMessage(message));
+        if(Config.isSendInGame()){
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.sendMessage(getMessage(message));
+            }
         }
         Bukkit.getConsoleSender().sendMessage(getMessage(message));
     }
@@ -47,7 +50,7 @@ public class MessageUtil {
      * @return
      */
     private static String getMessage(String message) {
-        return "\2476[\2474DriveBackup\2476]\2473 " + message;
+        return "\2476[\2474Backup Service\2476]\2473 " + message;
     }
 
     /**
