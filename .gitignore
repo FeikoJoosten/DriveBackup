@@ -10,3 +10,5 @@ src/com/*
 *.iml
 lib/*
 dependency-reduced-pom.xml
+*.jar
+*.class
