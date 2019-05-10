@@ -14,9 +14,9 @@ import java.nio.channels.ReadableByteChannel;
  */
 
 public class DownloadThread implements Runnable {
-    String type;
-    String file;
-    String service;
+    private String type;
+    private String file;
+    private String service;
 
     public DownloadThread(String service, String type, String file) {
         this.service = service;

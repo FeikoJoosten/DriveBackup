@@ -68,36 +68,28 @@ public class DriveBackup extends JavaPlugin {
         /**
          * Starts update checker
          */
-        this.getServer().getScheduler().runTask(this, new Runnable() {
-
-            @Override
-            public void run() {
-                getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (Config.isUpdateCheck()) {
-                            try {
-                                MessageUtil.sendConsoleMessage("Running update checker...");
-                                newVersion = updateCheck(currentVersion);
-                                if (newVersion > currentVersion) {
-                                    MessageUtil.sendConsoleMessage("Version " + newVersionTitle + " has been released." + " You are currently running version " + currentVersionTitle);
-                                    MessageUtil.sendConsoleMessage("Update at: http://dev.bukkit.org/bukkit-plugins/drivebackup/");
-                                } else if (currentVersion > newVersion) {
-                                    MessageUtil.sendConsoleMessage("You are running an unsupported build!");
-                                    MessageUtil.sendConsoleMessage("The recommended version is " + newVersionTitle + ", and you are running " + currentVersionTitle);
-                                    MessageUtil.sendConsoleMessage("If the plugin has just recently updated, please ignore this message.");
-                                } else {
-                                    MessageUtil.sendConsoleMessage("Hooray! You are running the latest build!");
-                                }
-                            } catch (Exception e) {
-                                // ignore exceptions
-                            }
+        this.getServer().getScheduler().runTask(this, () -> {
+            BukkitScheduler scheduler = getServer().getScheduler();
+            scheduler.runTaskTimerAsynchronously(plugin, () -> {
+                if (Config.isUpdateCheck()) {
+                    try {
+                        MessageUtil.sendConsoleMessage("Running update checker...");
+                        newVersion = updateCheck(currentVersion);
+                        if (newVersion > currentVersion) {
+                            MessageUtil.sendConsoleMessage("Version " + newVersionTitle + " has been released." + " You are currently running version " + currentVersionTitle);
+                            MessageUtil.sendConsoleMessage("Update at: http://dev.bukkit.org/bukkit-plugins/drivebackup/");
+                        } else if (currentVersion > newVersion) {
+                            MessageUtil.sendConsoleMessage("You are running an unsupported build!");
+                            MessageUtil.sendConsoleMessage("The recommended version is " + newVersionTitle + ", and you are running " + currentVersionTitle);
+                            MessageUtil.sendConsoleMessage("If the plugin has just recently updated, please ignore this message.");
+                        } else {
+                            MessageUtil.sendConsoleMessage("Hooray! You are running the latest build!");
                         }
+                    } catch (Exception e) {
+                        // ignore exceptions
                     }
-                }, 0, 430000);
-
-            }
+                }
+            }, 0, 430000);
 
         });
 
@@ -162,7 +154,7 @@ public class DriveBackup extends JavaPlugin {
         if (Config.getBackupDelay() / 60 / 20 != -1) {
             MessageUtil.sendConsoleMessage("Starting the backup thread for every " + Config.getBackupDelay() + " ticks.");
             BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-            scheduler.runTaskTimerAsynchronously(getInstance(), new UploadThread(), Config.getBackupDelay(), Config.getBackupDelay());
+            scheduler.scheduleSyncRepeatingTask(getInstance(), new UploadThread(), Config.getBackupDelay(), Config.getBackupDelay());
         }
     }
 
