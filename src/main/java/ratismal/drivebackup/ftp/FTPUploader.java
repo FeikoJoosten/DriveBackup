@@ -52,7 +52,7 @@ public class FTPUploader {
         }
     }
 
-    public static void uploadFile(File file, String type) {
+    public static void uploadFile(File file) {
         try {
 
             FTPClient f = new FTPClient();
@@ -72,11 +72,11 @@ public class FTPUploader {
                 f.makeDirectory(Config.getDestination());
                 f.changeWorkingDirectory(Config.getDestination());
             }
-            if (!f.changeWorkingDirectory(type)) {
+            /*if (!f.changeWorkingDirectory(type)) {
                 MessageUtil.sendConsoleMessage("Creating folder");
                 f.makeDirectory(type);
                 f.changeWorkingDirectory(type);
-            }
+            }*/
 
             f.setFileType(FTP.BINARY_FILE_TYPE, FTP.BINARY_FILE_TYPE);
             f.setFileTransferMode(FTP.BINARY_FILE_TYPE);
@@ -88,7 +88,7 @@ public class FTPUploader {
 
             MessageUtil.sendConsoleMessage(f.printWorkingDirectory());
 
-            deleteFiles(f, type);
+            deleteFiles(f, "");
 
             f.disconnect();
 

@@ -192,7 +192,7 @@ public class OneDriveUploader {
                 "}").post(query2);
     }
 
-    public void uploadFile(File file, String type) throws Exception {
+    public void uploadFile(File file) throws Exception {
         // URL Root = https://api.onedrive.com/v1.0
         // Two Accessible Models = Drive/Item
 
@@ -202,11 +202,11 @@ public class OneDriveUploader {
             createDestinationFolder();
         }
 
-       if (!checkDestinationExists(type)) {
+       /*if (!checkDestinationExists(type)) {
            createDestinationFolder(type);
-       }
+       }*/
 
-        String openQuery = "https://api.onedrive.com/v1.0/drive/root:/" + Config.getDestination() + "/" + type + "/" + file.getName() + ":/upload.createSession?access_token=" + returnAccessToken();
+        String openQuery = "https://api.onedrive.com/v1.0/drive/root:/" + Config.getDestination() + "/" + file.getName() + ":/upload.createSession?access_token=" + returnAccessToken();
         Response openConnection = given().contentType("application/json").post(openQuery);
 
         //Assign our backup to Random Access File
@@ -223,7 +223,7 @@ public class OneDriveUploader {
 
             if (fileSizeInMB <= 100) {
                 /* Implements 100mb limit since using Rest API */
-                String uploadQuery = "https://api.onedrive.com/v1.0/drive/root:/" + Config.getDestination() + "/" + type + "/" + file.getName() + ":/content?access_token=" + returnAccessToken();
+                String uploadQuery = "https://api.onedrive.com/v1.0/drive/root:/" + Config.getDestination() + "/" + file.getName() + ":/content?access_token=" + returnAccessToken();
                 given().contentType("application/zip").body(file).put(uploadQuery);
                 MessageUtil.sendConsoleMessage("Uploaded " + fileSizeInMB + "MB of file " + file.getAbsolutePath());
             } else {
@@ -261,8 +261,8 @@ public class OneDriveUploader {
             }
         }
 
-        if (!checkDestinationExists(type)) {
-            deleteFiles(type);
+        if (!checkDestinationExists("")) {
+            deleteFiles("");
         }
     }
 

@@ -4,6 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Config {
 
@@ -63,6 +64,9 @@ public class Config {
     private static String backupStart;
     private static String backupDone;
     private static String backupNext;
+    private static String backupFormat;
+    private static List<String> backupBlacklist;
+    private static Boolean backupShouldCreate;
     private static Boolean sendInGame;
 
     /**
@@ -110,6 +114,10 @@ public class Config {
         updateCheck = pluginconfig.getBoolean("update-check");
         keepLocal = pluginconfig.getBoolean("keep-local-backup-after-upload");
         debug = !pluginconfig.getBoolean("suppress-errors");
+        
+        backupFormat = pluginconfig.getString("backupFormat");
+        backupShouldCreate = pluginconfig.getBoolean("backupShouldCreate");
+        backupBlacklist = pluginconfig.getStringList("blacklist");
 
         //MessageUtil.sendConsoleMessage("Scheduling backups for every " + backupDelay + " ticks.");
 
@@ -189,6 +197,18 @@ public class Config {
 
     public static HashMap<String, HashMap<String, Object>> getBackupList() {
         return backupList;
+    }
+    
+    public static String getBackupFormat() {
+    	return backupFormat;
+    }
+    
+    public static boolean getShouldBackup() {
+    	return backupShouldCreate;
+    }
+    
+    public static List<String> getBackupBlacklist() {
+    	return backupBlacklist;
     }
 
     public static long getBackupDelay() {

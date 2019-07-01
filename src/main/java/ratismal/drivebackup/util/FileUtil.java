@@ -76,23 +76,23 @@ public class FileUtil {
      * @param type         What we're backing up (world, plugin, etc)
      * @param formatString Format of the file name
      */
-    public static void makeBackup(String type, String formatString, List<String> _blackList) {
+    public static void makeBackup() {
         try {
             fileList.clear();
-            DateFormat format = new SimpleDateFormat(formatString, Locale.ENGLISH);
+            DateFormat format = new SimpleDateFormat(Config.getBackupFormat(), Locale.ENGLISH);
             String fileName = format.format(new Date());
             File path = new File(Config.getDir());
-            blackList = _blackList;
+            blackList = Config.getBackupBlacklist();
             if (!path.exists()) {
                 path.mkdir();
             }
-            path = new File(Config.getDir() + "/" + type);
+            path = new File(Config.getDir() + "/");
             if (!path.exists()) {
                 path.mkdir();
             }
 
-            generateFileList(new File(type), type);
-            zipIt(Config.getDir() + "/" + type + "/" + fileName, type);
+            generateFileList(new File("."), ".");
+            zipIt(Config.getDir() + "/" + fileName, ".");
 
 
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class FileUtil {
 
         if (Config.getKeepCount() != -1) {
             try {
-                getFileToUpload(type, formatString, false);
+                getFileToUpload("", Config.getBackupFormat(), false);
                 while (backupList.size() > Config.getKeepCount()) {
                     File fileToDelete = backupList.descendingMap().lastEntry().getValue();
                     Date dateOfFile = backupList.descendingMap().lastKey();
@@ -143,7 +143,7 @@ public class FileUtil {
             fos = new FileOutputStream(zipFile);
             zos = new ZipOutputStream(fos);
 
-            //  MessageUtil.sendConsoleMessage("Output to Zip : " + zipFile);
+            //MessageUtil.sendConsoleMessage("Output to Zip : " + zipFile);
 
             for (String file : fileList) {
                 ZipEntry ze = new ZipEntry(source + File.separator + file);

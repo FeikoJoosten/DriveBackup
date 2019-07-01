@@ -92,7 +92,7 @@ public class GoogleUploader {
     }
 
 
-    public static void uploadFile(java.io.File file, String type) throws IOException {
+    public static void uploadFile(java.io.File file) throws IOException {
         Drive service = getDriveService();
 
         File body = new File();
@@ -113,7 +113,7 @@ public class GoogleUploader {
             parentFolder = service.files().insert(parentFolder).execute();
         }
 
-        File childFolder = getFolder(type, parentFolder);
+        /*File childFolder = getFolder(type, parentFolder);
         ParentReference childFolderParent = new ParentReference();
         childFolderParent.setId(parentFolder.getId());
         if (childFolder == null) {
@@ -124,10 +124,10 @@ public class GoogleUploader {
             childFolder.setParents(Collections.singletonList(childFolderParent));
 
             childFolder = service.files().insert(childFolder).execute();
-        }
+        }*/
 
         ParentReference newParent = new ParentReference();
-        newParent.setId(childFolder.getId());
+        newParent.setId(parentFolder.getId());
         body.setParents(Collections.singletonList(newParent));
 
         try {
@@ -138,7 +138,7 @@ public class GoogleUploader {
                 e.printStackTrace();
         }
 
-        deleteFiles(type);
+        //deleteFiles("");
     }
 
     public static void downloadFile(String name, String type) {
